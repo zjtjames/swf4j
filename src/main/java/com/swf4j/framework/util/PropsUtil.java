@@ -37,7 +37,7 @@ public class PropsUtil {
     /**
      * 获取属性（默认值为null）
      */
-    private static String getProperty(String key) {
+    public static String getProperty(String key) {
         String value = props.getProperty(key.trim());
         if (StringUtils.isBlank(value)) {
             return null;
@@ -48,7 +48,7 @@ public class PropsUtil {
     /**
      * 获取属性（可指定默认值）
      */
-    private static String getProperty(String key, String defaultValue) {
+    public static String getProperty(String key, String defaultValue) {
         String value = props.getProperty(key.trim());
         if (StringUtils.isBlank(value)) {
             return defaultValue;
