@@ -16,7 +16,7 @@ import java.util.Properties;
  * 读取配置文件工具类
  * 因为是工具类，所以实例变量和方法全是静态的
  */
-public class PropsUtil {
+public final class PropsUtil {
 
     private static Logger logger = LoggerFactory.getLogger(PropsUtil.class);
 
