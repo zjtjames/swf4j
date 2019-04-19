@@ -46,7 +46,7 @@ public final class ClassUtil {
 
     /**
      * 获取指定包名下的所有类
-     * 根据包名将其转换为文件路径，读取Class文件或jar包，获取指定的类名去加载类
+     * 根据包名将其转换为文件路径，读取class文件或jar包，获取指定的类名去加载类
      */
     public static Set<Class<?>> getClassSet(String packageName) {
         Set<Class<?>> classSet = new HashSet<>();
@@ -91,6 +91,7 @@ public final class ClassUtil {
             } else {
                 String subPackagePath = fileName;
                 if (StringUtils.isNotEmpty(packagePath)) {
+                    // 进入下一级目录
                     subPackagePath = packagePath + "." + subPackagePath;
                 }
                 String subPackageName = fileName;
