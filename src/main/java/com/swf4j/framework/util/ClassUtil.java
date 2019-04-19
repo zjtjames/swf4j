@@ -3,9 +3,12 @@
  */
 package com.swf4j.framework.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.net.URL;
 import java.util.*;
 
@@ -25,7 +28,7 @@ public final class ClassUtil {
 
     /**
      * 加载类
-     * @param className 类的全名
+     * @param className 类的全名 java.lang.String
      * @param isInitialized 是否初始化，初始化是指是否执行类的静态代码块
      * @return
      */
@@ -67,7 +70,27 @@ public final class ClassUtil {
     }
 
     private static void addClass(Set<Class<?>> classSet, String packagePath, String packageName) {
+        // 返回抽象路径名表示的文件和目录
+        File[] files = new File(packagePath).listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return (file.isFile() && file.getName().endsWith(".class")) || file.isDirectory();
+            }
+        });
+        for (File file : files) {
+            String fileName = file.getName();
+            if (file.isFile()) {
+                String className = fileName.substring(0, fileName.lastIndexOf("."));
+                if (StringUtils.isNotEmpty(packageName)) {
+                    className = packageName + "." + className;
+                }
+            }
+        }
+    }
 
+    private static void doAddClass(Set<Class<?>> classSet, String className) {
+        Class<?> cls = loadClass(className, false);
+        classSet.add(cls);
     }
 
     public static void main(String[] args) {
