@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -79,11 +80,24 @@ public final class ClassUtil {
         });
         for (File file : files) {
             String fileName = file.getName();
+            // 是文件
             if (file.isFile()) {
                 String className = fileName.substring(0, fileName.lastIndexOf("."));
                 if (StringUtils.isNotEmpty(packageName)) {
                     className = packageName + "." + className;
                 }
+                doAddClass(classSet, className);
+                // 是目录 递归
+            } else {
+                String subPackagePath = fileName;
+                if (StringUtils.isNotEmpty(packagePath)) {
+                    subPackagePath = packagePath + "." + subPackagePath;
+                }
+                String subPackageName = fileName;
+                if (StringUtils.isNotEmpty(packageName)) {
+                    subPackageName = packageName + "." + subPackageName;
+                }
+                addClass(classSet, subPackagePath, subPackageName);
             }
         }
     }
@@ -94,7 +108,15 @@ public final class ClassUtil {
     }
 
     public static void main(String[] args) {
-        getClassSet("com.swf4j.framework.util");
+        File file = new File("abc.txt");
+        System.out.println(file.exists());
+        System.out.println(file.getAbsolutePath());
+//        try {
+//            file.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
 
