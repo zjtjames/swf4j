@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * 类操作工具类
@@ -58,7 +61,18 @@ public final class ClassUtil {
                     String protocol = url.getProtocol();
                     if (protocol.equals("file")) {
                         String packagePath = url.getPath().replaceAll("%20", " ");
-
+                        addClass(classSet, packagePath, packageName);
+                    } else if (protocol.equals("jar")) {
+                        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+                        if (jarURLConnection != null) {
+                            JarFile jarFile = jarURLConnection.getJarFile();
+                            if (jarFile != null) {
+                                Enumeration<JarEntry> jarEntries = jarFile.entries();
+                                while (jarEntries.hasMoreElements()) {
+                                    JarEntry jarEntry = jarEntries.nextElement();
+                                }
+                            }
+                        }
                     }
                 }
             }
