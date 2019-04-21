@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -34,7 +33,8 @@ public final class ClassUtil {
      * 加载类
      * @param className 类的全名 java.lang.String
      * @param isInitialized 是否初始化，初始化是指是否执行类的静态代码块
-     * @return
+     * @return Returns the {@code Class} object associated with the class or
+     * interface with the given string name, using the given class loader.
      */
     public static Class<?> loadClass(String className, boolean isInitialized) {
         Class<?> cls;
