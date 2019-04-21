@@ -104,6 +104,7 @@ public final class ClassUtil {
             if (file.isFile()) {
                 String className = fileName.substring(0, fileName.lastIndexOf("."));
                 if (StringUtils.isNotEmpty(packageName)) {
+                    // 拼接成完整路径 java.lang.String
                     className = packageName + "." + className;
                 }
                 doAddClass(classSet, className);
@@ -112,7 +113,7 @@ public final class ClassUtil {
                 String subPackagePath = fileName;
                 if (StringUtils.isNotEmpty(packagePath)) {
                     // 进入下一级目录
-                    subPackagePath = packagePath + "." + subPackagePath;
+                    subPackagePath = packagePath + "/" + subPackagePath;
                 }
                 String subPackageName = fileName;
                 if (StringUtils.isNotEmpty(packageName)) {
@@ -129,16 +130,9 @@ public final class ClassUtil {
     }
 
     public static void main(String[] args) {
-        File file = new File("abc.txt");
-        System.out.println(file.exists());
-        System.out.println(file.getAbsolutePath());
-//        try {
-//            file.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
+        Set<Class<?>> set = getClassSet("com.swf4j.framework");
+        for (Class<?> item : set) {
+            System.out.println(item);
+        }
     }
-
-
 }
