@@ -10,7 +10,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * 反射工具类：通过类来实例化对象，调用方法，设置成员变量的值
+ * 反射工具类：封装java反射相关的API
+ * 通过类来实例化对象，调用方法，设置成员变量的值
  */
 public final class ReflectionUtil {
 
