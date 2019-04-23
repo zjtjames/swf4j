@@ -15,7 +15,7 @@ import java.util.Map;
 public class View {
 
     /**
-     * 视图路径
+     * 视图(jsp)路径
      */
     private String path;
 
