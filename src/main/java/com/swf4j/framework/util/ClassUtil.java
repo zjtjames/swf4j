@@ -48,6 +48,13 @@ public final class ClassUtil {
     }
 
     /**
+     * 加载类（默认将初始化类，执行静态块）
+     */
+    public static Class<?> loadClass(String classname) {
+        return loadClass(classname, true);
+    }
+
+    /**
      * 获取指定包名下的所有类
      * 根据包名将其转换为文件路径，读取class文件或jar包，获取指定的类名去加载类
      */
