@@ -34,6 +34,8 @@ public class Request {
         return requestPath;
     }
 
+    // 通过对象的成员变量计算hash
+    // 重写Request的hashCode()和equals()是为了使得只要有相同的requestMethod和requestPath，就能从ACTION_MAP中取得同一个Handler
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
