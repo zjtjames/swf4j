@@ -1,4 +1,4 @@
-package com.swf4j.framework.common;
+package com.swf4j.framework;
 
 /**
  * 常量，维护配置文件中相关的配置项名称

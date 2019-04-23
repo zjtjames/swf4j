@@ -3,7 +3,7 @@
  */
 package com.swf4j.framework.util;
 
-import com.swf4j.framework.common.ConfigConstant;
+import com.swf4j.framework.ConfigConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

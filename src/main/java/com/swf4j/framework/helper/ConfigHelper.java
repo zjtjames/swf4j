@@ -3,7 +3,7 @@
  */
 package com.swf4j.framework.helper;
 
-import com.swf4j.framework.common.ConfigConstant;
+import com.swf4j.framework.ConfigConstant;
 import com.swf4j.framework.util.PropsUtil;
 
 /**
