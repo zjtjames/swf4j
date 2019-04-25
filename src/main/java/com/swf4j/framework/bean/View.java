@@ -39,7 +39,7 @@ public class View {
         return this.path;
     }
 
-    private Map<String, Object> getModel() {
+    public Map<String, Object> getModel() {
         return this.model;
     }
 
