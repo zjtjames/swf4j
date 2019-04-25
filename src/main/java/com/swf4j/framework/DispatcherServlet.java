@@ -3,11 +3,19 @@
  */
 package com.swf4j.framework;
 
+import com.swf4j.framework.bean.Data;
 import com.swf4j.framework.bean.Handler;
+import com.swf4j.framework.bean.Param;
+import com.swf4j.framework.bean.View;
 import com.swf4j.framework.helper.BeanHelper;
 import com.swf4j.framework.helper.ConfigHelper;
 import com.swf4j.framework.helper.ControllerHelper;
 import com.swf4j.framework.util.CodecUtil;
+import com.swf4j.framework.util.JsonUtil;
+import com.swf4j.framework.util.ReflectionUtil;
+import com.swf4j.framework.util.StreamUtil;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +70,57 @@ public class DispatcherServlet extends HttpServlet{
                 String paramValue = req.getParameter(paramName);
                 paramMap.put(paramName, paramValue);
             }
-            String body = CodecUtil.decodeURL()
-
+            // todo decode的作用是什么？
+            String body = CodecUtil.decodeURL(StreamUtil.getString(req.getInputStream()));
+            if (StringUtils.isNotEmpty(body)) {
+                String[] params = body.split("&");
+                if (ArrayUtils.isNotEmpty(params)) {
+                    for (String param : params) {
+                        String[] array = param.split("=");
+                        if (ArrayUtils.isNotEmpty(array) && array.length == 2) {
+                            String paramName = array[0];
+                            String paramValue = array[1];
+                            paramMap.put(paramName, paramValue);
+                        }
+                    }
+                }
+            }
+            Param param = new Param(paramMap);
+            // 通过反射调用Action方法
+            Method actionMethod = handler.getActionMethod();
+            //todo 为什么Object... params 可以接受Param类的对象
+            Object result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+            // 拿到用户定义的Action方法返回值，然后用HttpServlet的方法进行转发或重定向，这样让用户看上去好像只要代码中写return相应的返回值就能实现
+            // 转发，实际上底层还是HttpServlet做的转发
+            if (result instanceof View) {
+                // 返回JSP页面
+                View view = (View) result;
+                String path = view.getPath();
+                if (StringUtils.isNotEmpty(path)) {
+                    if (path.startsWith("/")) {
+                        resp.sendRedirect(req.getContextPath() + path);
+                    } else {
+                        Map<String, Object> model = view.getModel();
+                        for (Map.Entry<String, Object> entry : model.entrySet()) {
+                            req.setAttribute(entry.getKey(), entry.getValue());
+                        }
+                        req.getRequestDispatcher(ConfigHelper.getAppJspPath() + path).forward(req, resp);
+                    }
+                } else if (result instanceof Data) {
+                    // 返回JSON数据
+                    Data data = (Data) result;
+                    Object model = data.getModel();
+                    if (model != null) {
+                        resp.setContentType("application/json");
+                        resp.setCharacterEncoding("UTF-8");
+                        PrintWriter writer = resp.getWriter();
+                        String json = JsonUtil.toJson(model);
+                        writer.write(json);
+                        writer.flush();
+                        writer.close();
+                    }
+                }
+            }
         }
     }
 }
