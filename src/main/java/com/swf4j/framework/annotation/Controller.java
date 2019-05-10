@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 控制器注解 类比Spring的@Controller
  */
-@Target(ElementType.TYPE) // 适用于类，接口
+@Target(ElementType.TYPE) // TYPE表示用于类、接口、枚举、注解
 @Retention(RetentionPolicy.RUNTIME) // 运行时加载到jvm中 有效范围最大
 public @interface Controller {
 }
