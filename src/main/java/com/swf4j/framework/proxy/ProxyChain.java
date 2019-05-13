@@ -50,6 +50,7 @@ public class ProxyChain {
         if (proxyIndex < proxyList.size()) {
             methodResult = proxyList.get(proxyIndex++).doProxy(this);
         } else {
+            // 执行目标对象的业务逻辑
             methodResult = methodProxy.invokeSuper(targetObject, methodParams);
         }
         return methodResult;
