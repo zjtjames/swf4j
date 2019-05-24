@@ -17,6 +17,9 @@ public class ProxyManager {
 
     @SuppressWarnings("unchecked") // 使用unchecked忽略编译时的向下转型警告
     public static <T> T createProxy(Class<T> targetClass, List<Proxy> proxyList) {
+        // 使用CGLib提供的Enhancer类的create方法获得代理对象
+        // create方法有两个参数 目标类别和方法拦截器 方法拦截器是一个interface 必须覆盖其intercept方法
+        // intercept方法中就是增强和原业务逻辑
         return (T) Enhancer.create(targetClass, new MethodInterceptor() {
             @Override
             public Object intercept(Object targetObject, Method targetMethod, Object[] methodParams, MethodProxy methodProxy) throws Throwable {

@@ -10,8 +10,11 @@ public interface Proxy {
 
     /**
      * 执行链式代理
+     * 链式代理的起点是ProxyManager中的createProxy方法中的Enhancer.create方法中的参数MethodInterceptor中的intercept方法中new的ProxyChain对象的doProxyChain方法，
+     * 此时proxyIndex=0
      * 在实现类中会提供相应的横切逻辑，并调用proxyChain的doProxyChain方法，这会调用下一个Proxy对象的doProxy，从而链式传导下去，
      * 直到proxyIndex达到proxyList的上限为止
+     *
      *
      * 链式代理：将多个代理通过一条链子穿起来，一个个地去执行，执行顺序取决于添加到链上的先后顺序
      */
