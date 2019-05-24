@@ -17,14 +17,14 @@ public class ProxyChain {
     private final Class<?> targetClass; // 目标类
     private final Object targetObject; // 目标对象
     private final Method targetMethod; // 目标方法
-    private final MethodProxy methodProxy; // CGLib提供的一个方法代理对象
+    private final MethodProxy methodProxy; // CGLib提供的一个方法代理对象，在doProxyChain方法中被使用
     private final Object[] methodParams; // 方法参数
 
     private List<Proxy> proxyList = new ArrayList<>(); // 代理列表
     private int proxyIndex = 0; // 代理索引
 
     public ProxyChain(Class<?> targetClass, Object targetObject, Method targetMethod, MethodProxy methodProxy,
-                      Object[] methodParams, List<Proxy> proxyList) {
+                      Object[] methodParams, List<Proxy> proxyList) { // 成员变量在构造器中进行初始化
         this.targetClass = targetClass;
         this.targetObject = targetObject;
         this.targetMethod = targetMethod;
