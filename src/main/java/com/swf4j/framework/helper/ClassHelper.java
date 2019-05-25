@@ -7,6 +7,7 @@ import com.swf4j.framework.annotation.Controller;
 import com.swf4j.framework.annotation.Service;
 import com.swf4j.framework.util.ClassUtil;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,15 +51,12 @@ public final class ClassHelper {
      * 获取应用包名下所有Controller类
      */
     public static Set<Class<?>> getControllerClassSet() {
-        Set<Class<?>> classSet = new HashSet<>();
-        for (Class<?> cls : CLASS_SET) {
-            if (cls.isAnnotationPresent(Controller.class)) {
-                classSet.add(cls);
-            }
-        }
-        return classSet;
+        return getClassSetByAnnotation(Controller.class);
     }
 
+    /**
+     * 获取应用包名下所有Bean的类
+     */
     public static Set<Class<?>> getBeanClassSet() {
         Set<Class<?>> beanClassSet = new HashSet<>();
         beanClassSet.addAll(getServiceClassSet());
@@ -66,4 +64,32 @@ public final class ClassHelper {
         return beanClassSet;
     }
 
+    /**
+     * 获取应用包名下某父类（或接口）的所有子类（或实现类）
+     * 此方法是专门为AOP添加的 用来抓AspectProxy抽象类的子类
+     */
+    public static Set<Class<?>> getClassSetBySuper(Class<?> superClass) {
+        Set<Class<?>> classSet = new HashSet<>();
+        for (Class<?> cls : CLASS_SET) {
+            if (superClass.isAssignableFrom(cls) && !superClass.equals(cls)) {
+                classSet.add(cls);
+            }
+        }
+        return classSet;
+    }
+
+    /**
+     * 获取应用包名下带有某注解的所有类
+     * 此方法也是专门为AOP添加的
+     * getServiceClassSet和getControllerClassSet其实可以用此方法重构,我仅重构getControllerClassSet作为示例
+     */
+    public static Set<Class<?>> getClassSetByAnnotation(Class<? extends Annotation> annotationClass) {
+        Set<Class<?>> classSet = new HashSet<>();
+        for (Class<?> cls : CLASS_SET) {
+            if (cls.isAnnotationPresent(annotationClass)) {
+                classSet.add(cls);
+            }
+        }
+        return classSet;
+    }
 }
