@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * 控制器助手类
  */
-public class ControllerHelper {
+public final class ControllerHelper {
 
     /**
      * 用于存放请求对象和处理对象的映射关系 Action Map 由此实现RequestMapping的功能

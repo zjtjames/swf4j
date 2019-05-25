@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 依赖注入助手类 ： 通过DI实现Ioc 将某个类需要依赖的成员注入到这个类中
  */
-public class IocHelper {
+public final class IocHelper {
 
     static {
         // 获取所有Bean类(类比于spring中所有继承了@Component的注解)与Bean实例之间的映射关系 Bean Map
