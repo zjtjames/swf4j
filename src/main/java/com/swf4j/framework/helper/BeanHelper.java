@@ -50,4 +50,12 @@ public final class BeanHelper {
         return (T) BEAN_MAP.get(cls);
     }
 
+    /**
+     * 将Bean实例放入Bean Map中
+     * 此方法是专门为AOP添加的 IOC用不上此方法
+     */
+    public static void setBean(Class<?> cls, Object object) {
+        BEAN_MAP.put(cls, object);
+    }
+
 }
