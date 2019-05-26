@@ -3,10 +3,7 @@
  */
 package com.swf4j.framework;
 
-import com.swf4j.framework.helper.BeanHelper;
-import com.swf4j.framework.helper.ClassHelper;
-import com.swf4j.framework.helper.ControllerHelper;
-import com.swf4j.framework.helper.IocHelper;
+import com.swf4j.framework.helper.*;
 import com.swf4j.framework.util.ClassUtil;
 
 /**
@@ -18,6 +15,8 @@ public final class HelperLoader {
         Class<?>[] classList = {
                 ClassHelper.class,
                 BeanHelper.class,
+                // AopHelper要在IocHelper之前加载，因为首先要通过AopHelper获取代理对象，然后才能IocHelper进行依赖注入
+                AopHelper.class,
                 IocHelper.class,
                 ControllerHelper.class
         };
