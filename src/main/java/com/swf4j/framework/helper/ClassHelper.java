@@ -66,7 +66,7 @@ public final class ClassHelper {
 
     /**
      * 获取应用包名下某父类（或接口）的所有子类（或实现类）
-     * 此方法是专门为AOP添加的 用来抓AspectProxy抽象类的子类
+     * 此方法是专门为AOP添加的 用来抓AspectProxy抽象类的子类（因为切面类需要继承AspectProxy）
      */
     public static Set<Class<?>> getClassSetBySuper(Class<?> superClass) {
         Set<Class<?>> classSet = new HashSet<>();
@@ -80,7 +80,7 @@ public final class ClassHelper {
 
     /**
      * 获取应用包名下带有某注解的所有类
-     * 此方法也是专门为AOP添加的
+     * 此方法也是专门为AOP添加的 如@Aspect(Controller.class) 则目标类集合是所有被@Controller注解标记的类
      * getServiceClassSet和getControllerClassSet其实可以用此方法重构,我仅重构getControllerClassSet作为示例
      */
     public static Set<Class<?>> getClassSetByAnnotation(Class<? extends Annotation> annotationClass) {
