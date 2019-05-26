@@ -34,7 +34,6 @@ public final class AopHelper {
                 Object proxy = ProxyManager.createProxy(targetClass, proxyList);
                 // 用代理对象替换 BeanMap中targetClass原来的值 即目标对象
                 BeanHelper.setBean(targetClass, proxy);
-
             }
         } catch (Exception e) {
             logger.error("initialize aop failure", e);
