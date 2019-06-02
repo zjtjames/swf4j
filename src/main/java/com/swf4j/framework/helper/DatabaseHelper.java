@@ -12,6 +12,8 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -209,5 +211,62 @@ public final class DatabaseHelper {
         return entityClass.getSimpleName();
     }
 
+    /**
+     * 开启事务
+     */
+    public static void beginTransaction() {
+        Connection conn = getConnection();
+        if (conn != null) {
+            try {
+                // JDBC默认是自动提交事务的，要开启事务，就要将自动提交属性设为false
+                conn.setAutoCommit(false);
+            } catch (SQLException e) {
+                LOGGER.error("begin transaction failure", e);
+                throw new RuntimeException(e);
+            } finally {
+                // 开启事务完毕后 要用Connection对象替换ThreadLocal容器中的Connection(这是因为ThreadLocal的get方法返回的是容器内对象的copy，而不是原对象)
+                // 当事务提交或回滚后，需要移除本地线程变量中的Connection对象
+                CONNECTION_HOLDER.set(conn);
+            }
+        }
+    }
+
+    /**
+     * 提交事务
+     */
+    public static void commitTransaction() {
+        Connection conn = getConnection();
+        if (conn != null) {
+            try {
+                conn.commit();
+                conn.close();
+            } catch (SQLException e) {
+                LOGGER.error("commit transaction failure", e);
+                throw new RuntimeException(e);
+            } finally {
+                // 当事务提交或回滚后，需要移除本地线程变量中的Connection对象,因为连接已经关闭了
+                CONNECTION_HOLDER.remove();
+            }
+        }
+    }
+
+    /**
+     * 回滚事务
+     */
+    public static void rollbackTransaction() {
+        Connection conn = getConnection();
+        if (conn != null) {
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException e) {
+                LOGGER.error("rollback transaction failure", e);
+                throw new RuntimeException(e);
+            } finally {
+                // 当事务提交或回滚后，需要移除本地线程变量中的Connection对象,因为连接已经关闭了
+                CONNECTION_HOLDER.remove();
+            }
+        }
+    }
 
 }
