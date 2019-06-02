@@ -15,7 +15,7 @@ public final class HelperLoader {
         Class<?>[] classList = {
                 ClassHelper.class,
                 BeanHelper.class,
-                // AopHelper要在IocHelper之前加载，因为首先要通过AopHelper获取代理对象，然后才能IocHelper进行依赖注入
+                // AopHelper要在IocHelper之前加载，因为首先要通过AopHelper用代理对象替换目标对象，然后才能IocHelper进行依赖注入
                 AopHelper.class,
                 IocHelper.class,
                 ControllerHelper.class
