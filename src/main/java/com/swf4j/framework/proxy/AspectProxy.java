@@ -26,6 +26,7 @@ public abstract class AspectProxy implements Proxy {
         begin();
         try {
             // 如果此方法需要拦截
+            // AopHelper先抓所有的目标类，再在增强类内部判断此方法是否要进行增强，实现方法级别的拦截
             if (intercept(cls, method, params)) {
                 before(cls, method, params);
                 result = proxyChain.doProxyChain();

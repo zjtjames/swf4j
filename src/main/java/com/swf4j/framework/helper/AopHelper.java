@@ -59,6 +59,7 @@ public final class AopHelper {
      * 获得切面类与目标类的映射关系
      * 切面类需要继承AspectProxy抽象类，还需要带有@Aspect注解，只有满足这两个条件，才能根据@Aspect注解的value中的注解
      * 去获取该注解所对应的目标类集合，然后才能建立切面类与目标类集合之间的映射关系
+     * AopHelper先抓所有的目标类，再在增强类内部判断此方法是否要进行增强，实现方法级别的拦截
      */
     private static void addAspectProxy(Map<Class<?>, Set<Class<?>>> proxyMap) throws Exception {
         // 获取所有继承了AspectProxy抽象类的切面类
