@@ -70,7 +70,6 @@ public class DispatcherServlet extends HttpServlet{
                 String paramValue = req.getParameter(paramName);
                 paramMap.put(paramName, paramValue);
             }
-            // todo decode的作用是什么？
             String body = CodecUtil.decodeURL(StreamUtil.getString(req.getInputStream()));
             if (StringUtils.isNotEmpty(body)) {
                 String[] params = body.split("&");
@@ -88,7 +87,6 @@ public class DispatcherServlet extends HttpServlet{
             Param param = new Param(paramMap);
             // 通过反射调用Action方法
             Method actionMethod = handler.getActionMethod();
-            //todo 为什么Object... params 可以接受Param类的对象
             Object result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
             // 拿到用户定义的Action方法返回值，然后用HttpServlet的方法进行转发或重定向，这样让用户看上去好像只要代码中写return相应的返回值就能实现
             // 转发，实际上底层还是HttpServlet做的转发
