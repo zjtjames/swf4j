@@ -16,14 +16,19 @@
         * Request 服务请求对象
         * View 试图对象
     * helper 助手类
-        * AopHelper
-        * BeanHelper
-        * ClassHelper
+        * AopHelper CGLIB生成代理对象
+        * BeanHelper 构建BEAN_MAP
+        * ClassHelper 构建CLASS_SET
         * ConfigHelper 读取用户填写的配置文件
-        * ControllerHelper
+        * ControllerHelper 构建ACTION_MAP，实现RequestMapping的功能
         * DatabaseHelper 封装JDBC常用操作 如开启、提交、回滚事务
         * IocHelper IOC相关操作
     * proxy 
+        * AspectProxy 代理抽象类 所有增强都要继承这个抽象类
+        * Proxy 代理接口
+        * ProxyChain 链式代理
+        * ProxyManager 封装创建代理对象的方法
+        * TransactionProxy 事务代理切面类 在doProxy方法中完成事务控制的相关逻辑
     * util 工具包
         * ClassUtil 类操作工具类
         * CodecUtil 编码与解码操作工具类
