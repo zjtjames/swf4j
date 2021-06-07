@@ -55,7 +55,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.1.2</version>
+            <version>1.2.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- MySQL依赖，用于提供JDBC实现(MySQL的Java驱动程序) -->
